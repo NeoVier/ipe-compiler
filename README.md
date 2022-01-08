@@ -1,14 +1,5 @@
 # NeoVier/ipe-compiler
 
-{{Copy Paste badge from Travis here.
-
-See the [elm-test Github page](https://github.com/elm-community/elm-test) for instructions on how to set up Travis with an Elm project.
-}}
-
-{{
-Example:
-[![Build Status](https://travis-ci.org/dillonkearns/graphqelm.svg?branch=master)](https://travis-ci.org/dillonkearns/graphqelm) }}
-
 [![Build Status](https://github.com/NeoVier/ipe-compiler/workflows/CI/badge.svg)](https://github.com/NeoVier/ipe-compiler/actions?query=branch%3Amain) [![Elm package](https://img.shields.io/elm-package/v/NeoVier/ipe-compiler.svg)](https://package.elm-lang.org/packages/NeoVier/ipe-compiler/latest/)
 
 Create modern backend applications using a strict functional programming language. Ipe tries to bring the Elm goodness to the backend, so we can build reliable and delightful apps all the way around!
