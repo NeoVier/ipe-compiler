@@ -11,7 +11,7 @@
     "prettier": "2.4.1"
   },
   "scripts": {
-    "test": "elm-verify-examples --run-tests && elm-test && elm make --docs docs.json",
+    "test": "elm-verify-examples --run-tests && elm-test",
     "build:docs": "elm make --docs docs.json",
     "preview-docs": "elm-doc-preview",
     "postinstall": "elm-tooling install",
