@@ -75,11 +75,9 @@ config =
     , NoDebug.TodoOrToString.rule
         |> Review.Rule.ignoreErrorsForDirectories [ "tests" ]
 
-    --, NoInconsistentAliases.config
-    --    [ ( "Html.Attributes", "Attr" )
-    --    , ( "Json.Decode", "Decode" )
-    --    , ( "Json.Encode", "Encode" )
-    --    ]
-    --    |> NoInconsistentAliases.noMissingAliases
-    --    |> NoInconsistentAliases.rule
+    , NoInconsistentAliases.config
+       [ ( "Ipe.Language", "Language" )
+       ]
+       |> NoInconsistentAliases.noMissingAliases
+       |> NoInconsistentAliases.rule
     ]

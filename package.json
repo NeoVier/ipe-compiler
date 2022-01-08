@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "The compiler for Ipe, a strict functional programming language for backend development",
   "devDependencies": {
+    "elm-doc-preview": "^5.0.5",
     "elm-review": "2.6.1",
     "elm-test": "latest-0.19.1",
     "elm-tooling": "1.6.0",
@@ -11,10 +12,13 @@
   },
   "scripts": {
     "test": "elm-verify-examples --run-tests && elm-test",
+    "build:docs": "elm make --docs docs.json",
+    "preview-docs": "elm-doc-preview",
     "postinstall": "elm-tooling install",
     "preci": "rm -rf node_modules",
     "ci": "yarn install --frozen-lockfile"
   },
   "author": "Henrique da Cunha Buss",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "dependencies": {}
 }
