@@ -49,7 +49,7 @@ jobs:
           NO_ELM_TOOLING_INSTALL: 1
         run: yarn ci
       - name: elm-tooling install
-        run: yarn --no-install elm-tooling install
+        run: yarn elm-tooling install
       - name: Tests
         run: yarn test
       - name: elm-review
