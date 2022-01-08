@@ -29,9 +29,9 @@ reservedKeywords =
 uppercaseName : Parser String
 uppercaseName =
     Parser.variable
-        { start = Char.isUpper
-        , inner = \c -> Char.isAlphaNum c || c == '_'
+        { inner = \c -> Char.isAlphaNum c || c == '_'
         , reserved = reservedKeywords
+        , start = Char.isUpper
         }
 
 
@@ -40,9 +40,9 @@ uppercaseName =
 lowercaseName : Parser String
 lowercaseName =
     Parser.variable
-        { start = Char.isLower
-        , inner = \c -> Char.isAlphaNum c || c == '_'
+        { inner = \c -> Char.isAlphaNum c || c == '_'
         , reserved = reservedKeywords
+        , start = Char.isLower
         }
 
 
@@ -79,11 +79,11 @@ moduleExport =
         [ Parser.succeed Language.ExportEverything
             |. Parser.token "(..)"
         , Parser.sequence
-            { start = "("
-            , separator = ","
-            , end = ")"
-            , spaces = Parser.spaces
+            { end = ")"
             , item = exportItem
+            , separator = ","
+            , spaces = Parser.spaces
+            , start = "("
             , trailing = Parser.Forbidden
             }
             |> Parser.andThen
@@ -130,11 +130,11 @@ typeExport =
         [ Parser.succeed Language.ExportAllVariants
             |. Parser.token "(..)"
         , Parser.sequence
-            { start = "("
-            , separator = ","
-            , end = ")"
-            , spaces = Parser.spaces
+            { end = ")"
             , item = uppercaseName
+            , separator = ","
+            , spaces = Parser.spaces
+            , start = "("
             , trailing = Parser.Forbidden
             }
             |> Parser.map Language.ExportSomeVariants

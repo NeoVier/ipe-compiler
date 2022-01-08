@@ -32,6 +32,7 @@ moduleDefinition =
                     input =
                         "module A exposing (..)"
 
+                    output : Language.ModuleDefinition
                     output =
                         { moduleName = "A", exports = Language.ExportEverything }
                 in
@@ -42,6 +43,7 @@ moduleDefinition =
                     input =
                         "module A exposing (function1, function2)"
 
+                    output : Language.ModuleDefinition
                     output =
                         { moduleName = "A"
                         , exports =
@@ -58,6 +60,7 @@ moduleDefinition =
                     input =
                         "module A exposing (OpaqueType, SemiOpaqueType(Variant1, Variant2), VisibleType(..))"
 
+                    output : Language.ModuleDefinition
                     output =
                         { moduleName = "A"
                         , exports =
