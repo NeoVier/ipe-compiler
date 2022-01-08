@@ -1,7 +1,7 @@
 {
     "type": "package",
-    "name": "replaceme/replaceme",
-    "summary": "REPLACEME",
+    "name": "NeoVier/ipe-compiler",
+    "summary": "The compiler for Ipe, a functional programming language for backend development",
     "license": "BSD-3-Clause",
     "version": "1.0.0",
     "exposed-modules": [

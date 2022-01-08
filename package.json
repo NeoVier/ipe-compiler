@@ -1,7 +1,7 @@
 {
-  "name": "REPLACEME",
+  "name": "ipe-compiler",
   "version": "0.0.1",
-  "description": "REPLACEME",
+  "description": "The compiler for Ipe, a strict functional programming language for backend development",
   "devDependencies": {
     "elm-review": "2.6.1",
     "elm-test": "latest-0.19.1",
@@ -13,6 +13,6 @@
     "test": "elm-verify-examples --run-tests && elm-test",
     "postinstall": "elm-tooling install"
   },
-  "author": "REPLACEME",
+  "author": "Henrique da Cunha Buss",
   "license": "BSD-3-Clause"
 }
