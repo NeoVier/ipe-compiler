@@ -11,7 +11,9 @@
   },
   "scripts": {
     "test": "elm-verify-examples --run-tests && elm-test",
-    "postinstall": "elm-tooling install"
+    "postinstall": "elm-tooling install",
+    "preci": "rm -rf node_modules",
+    "ci": "yarn install --frozen-lockfile"
   },
   "author": "Henrique da Cunha Buss",
   "license": "BSD-3-Clause"

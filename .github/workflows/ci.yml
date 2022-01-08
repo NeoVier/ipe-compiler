@@ -36,9 +36,9 @@ jobs:
           key: elm-${{ hashFiles('elm.json', 'elm-tooling.json', 'review/elm.json') }}
 
       # Install npm packages, unless we restored them from cache.
-      # Since `npm ci` removes the node_modules folder before running it’s
+      # Since `yarn ci` removes the node_modules folder before running it’s
       # important to skip this step if cache was restored.
-      - name: npm ci
+      - name: yarn ci
         if: steps.cache-node_modules.outputs.cache-hit != 'true'
         env:
           # If you have a `"postinstall": "elm-tooling install"` script in your
@@ -47,19 +47,19 @@ jobs:
           # package-lock.json does not, the postinstall script needs running
           # but this step won’t.
           NO_ELM_TOOLING_INSTALL: 1
-        run: npm ci
+        run: yarn ci
       - name: elm-tooling install
-        run: npx --no-install elm-tooling install
+        run: yarn --no-install elm-tooling install
       - name: Tests
-        run: npm test
+        run: yarn test
       - name: elm-review
-        run: npx elm-review
+        run: yarn elm-review
       - name: elm-format
-        run: npx --no-install elm-format --validate
+        run: yarn elm-format --validate
       # - name: prettier
       #   run: npx --no-install prettier --check .
       - name: Build elm docs
-        run: npx --no-install elm make --docs docs.json
+        run: yarn elm make --docs docs.json
       # - name: Elm Publish
       #   uses: dillonkearns/elm-publish-action@1.0.1
       #   with:
