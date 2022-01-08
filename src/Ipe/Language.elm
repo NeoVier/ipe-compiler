@@ -42,4 +42,4 @@ type ExportItem
 type TypeExport
     = ExportAllVariants
     | ExportNoVariant
-    | ExportSomeVariants String
+    | ExportSomeVariants (List String)
