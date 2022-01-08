@@ -1,6 +1,9 @@
 module Ipe.Parser exposing (moduleDefinition)
 
 {-| This is the module responsible for transforming a `String` into an Ipe AST (as in the Ipe.Language module).
+
+@docs moduleDefinition
+
 -}
 
 import Ipe.Language as Language
@@ -50,7 +53,7 @@ lowercaseName =
 -------------- MODULE DEFINITION --------------
 
 
-{-| Parse a module definition.
+{-| Every Ipe file must start by defining a module. This function parses a module definition.
 
     -- Modules can expose some definitions
     module ModuleName exposing (OpaqueType, SemiOpaqueType(Variant1, Variant2), VisibleType(..), function)
