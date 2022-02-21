@@ -55,7 +55,7 @@ jobs:
       - name: elm-review
         run: yarn elm-review
       - name: elm-format
-        run: yarn elm-format --validate
+        run: yarn elm-format src/ --validate
       # - name: prettier
       #   run: npx --no-install prettier --check .
       - name: Build elm docs
