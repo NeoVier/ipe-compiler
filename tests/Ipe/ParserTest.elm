@@ -106,6 +106,27 @@ moduleDefinition =
                         "module A exposing (function1, ..)"
                 in
                 expectErr input
+        , test "does not allow module to expose nothing" <|
+            \_ ->
+                let
+                    input =
+                        "module A"
+                in
+                expectErr input
+        , test "does not allow module to expose nothing, with the exposes keyword" <|
+            \_ ->
+                let
+                    input =
+                        "module A exposing ()"
+                in
+                expectErr input
+        , test "does not allow module to expose nothing, with the exposes keyword without parenthesis" <|
+            \_ ->
+                let
+                    input =
+                        "module A exposing"
+                in
+                expectErr input
         ]
 
 
@@ -119,9 +140,20 @@ typeDefinition =
         expectOk input response =
             Parser.run Ipe.Parser.typeDefinition input
                 |> Expect.equal (Ok response)
+
+        expectErr input =
+            Parser.run Ipe.Parser.typeDefinition input
+                |> Expect.err
     in
     Test.describe "Ipe.Parser.typeDefinition"
-        [ test "correctly parses a simple union type" <|
+        [ test "correctly errors out on incomplete type definition" <|
+            \_ ->
+                let
+                    input =
+                        "type Fruit = "
+                in
+                expectErr input
+        , test "correctly parses a simple union type" <|
             \_ ->
                 let
                     input =
