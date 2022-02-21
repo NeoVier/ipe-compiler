@@ -157,6 +157,13 @@ typeExport =
 -------------- TYPE DEFINITION --------------
 
 
+{-| Parses a custom type definition. You can give it type variables that start
+with a lowercase letter. Each type constructor must start with an uppercase letter.
+
+    type Price currency
+        = Price Int
+
+-}
 typeDefinition : Parser Language.TypeDefinition
 typeDefinition =
     Parser.succeed Language.TypeDefinition
@@ -210,6 +217,13 @@ typeConstructor =
             )
 
 
+{-| Parse a type. Can be one of:
+
+  - generic (a type that starts with a lowercase letter)
+  - record (similar to JSON objects)
+  - custom type (names that start with an uppercase letter and can have arguments)
+
+-}
 type_ : Parser Language.Type
 type_ =
     Parser.oneOf
