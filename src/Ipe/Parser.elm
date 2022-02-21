@@ -1,13 +1,26 @@
-module Ipe.Parser exposing (moduleDefinition)
+module Ipe.Parser exposing
+    ( moduleDefinition
+    , typeDefinition, type_
+    )
 
 {-| This is the module responsible for transforming a `String` into an Ipe AST (as in the Ipe.Language module).
 
+
+## Modules
+
 @docs moduleDefinition
+
+
+## Types
+
+@docs typeDefinition, type_
 
 -}
 
+import Dict
 import Ipe.Language as Language
 import Parser exposing ((|.), (|=), Parser)
+import Parser.Extra
 import Set exposing (Set)
 
 
@@ -20,6 +33,7 @@ reservedKeywords =
     Set.fromList
         [ "module"
         , "exposing"
+        , "type"
         ]
 
 
@@ -81,7 +95,7 @@ moduleExport =
     Parser.oneOf
         [ Parser.succeed Language.ExportEverything
             |. Parser.token "(..)"
-        , Parser.sequence
+        , Parser.Extra.nonEmptySequence
             { end = ")"
             , item = exportItem
             , separator = ","
@@ -89,19 +103,14 @@ moduleExport =
             , start = "("
             , trailing = Parser.Forbidden
             }
-            |> Parser.andThen
-                (\exportedItems ->
-                    if List.isEmpty exportedItems then
-                        Parser.problem
-                            """a module needs to export *something*!
+            { emptyMessage =
+                """a module needs to export *something*!
 
 You can either export everything in the module using `(..)`, or just some items by providing a comma-separated list, such as `(function1, function2)`.
 
 If you don't want to expose anything from this module, what's the point of having it?"""
-
-                    else
-                        Parser.succeed (Language.ExportSome exportedItems)
-                )
+            }
+            |> Parser.map Language.ExportSome
         ]
 
 
@@ -143,3 +152,135 @@ typeExport =
             |> Parser.map Language.ExportSomeVariants
         , Parser.succeed Language.ExportNoVariant
         ]
+
+
+
+-------------- TYPE DEFINITION --------------
+
+
+{-| Parses a custom type definition. You can give it type variables that start
+with a lowercase letter. Each type constructor must start with an uppercase letter.
+
+    type Price currency
+        = Price Int
+
+-}
+typeDefinition : Parser Language.TypeDefinition
+typeDefinition =
+    Parser.succeed Language.TypeDefinition
+        |. Parser.keyword "type"
+        |. Parser.spaces
+        |= uppercaseName
+        |. Parser.spaces
+        |= Parser.Extra.spaceSeparatedList lowercaseName
+        |. Parser.spaces
+        |. Parser.symbol "="
+        |. Parser.spaces
+        |= Parser.Extra.nonEmptySequence
+            { end = ""
+            , item = typeConstructor
+            , separator = "|"
+            , spaces = Parser.spaces
+            , start = ""
+            , trailing = Parser.Forbidden
+            }
+            { emptyMessage =
+                """You need to specify at least one type constructor!
+
+Type constructors are names that start with an uppercase letter and are separated by `|`. They may have arguments as well! So you could define types like so:
+
+```
+type Fruit
+    = Banana
+    | Orange
+    | Apple
+```
+"""
+            }
+
+
+{-| -}
+typeConstructor : Parser Language.TypeConstructor
+typeConstructor =
+    Parser.succeed Language.TypeConstructor
+        |= uppercaseName
+        |. Parser.spaces
+        |= Parser.Extra.spaceSeparatedList
+            (Parser.oneOf
+                [ Parser.succeed identity
+                    |. Parser.symbol "("
+                    |. Parser.spaces
+                    |= type_
+                    |. Parser.spaces
+                    |. Parser.symbol ")"
+                , type_
+                ]
+            )
+
+
+{-| Parse a type. Can be one of:
+
+  - generic (a type that starts with a lowercase letter)
+  - record (similar to JSON objects)
+  - custom type (names that start with an uppercase letter and can have arguments)
+
+-}
+type_ : Parser Language.Type
+type_ =
+    Parser.oneOf
+        [ genericType
+        , recordType
+        , customType
+        ]
+
+
+genericType : Parser Language.Type
+genericType =
+    lowercaseName
+        |> Parser.map (\name -> Language.GenericType { name = name })
+
+
+recordType : Parser Language.Type
+recordType =
+    Parser.sequence
+        { end = "}"
+        , item =
+            Parser.succeed Tuple.pair
+                |= lowercaseName
+                |. Parser.spaces
+                |. Parser.symbol ":"
+                |. Parser.spaces
+                |= Parser.lazy (\_ -> type_)
+        , separator = ","
+        , spaces = Parser.spaces
+        , start = "{"
+        , trailing = Parser.Forbidden
+        }
+        |> Parser.map (Dict.fromList >> Language.RecordType)
+
+
+customType : Parser Language.Type
+customType =
+    Parser.succeed
+        (\name argument ->
+            Language.CustomType
+                { name = name
+                , arguments = argument
+                }
+        )
+        |= uppercaseName
+        |. Parser.spaces
+        |= Parser.Extra.spaceSeparatedList
+            (Parser.oneOf
+                [ genericType
+                , recordType
+                , uppercaseName
+                    |> Parser.map (\name -> Language.CustomType { name = name, arguments = [] })
+                , Parser.succeed identity
+                    |. Parser.symbol "("
+                    |. Parser.spaces
+                    |= Parser.lazy (\_ -> customType)
+                    |. Parser.spaces
+                    |. Parser.symbol ")"
+                ]
+            )
