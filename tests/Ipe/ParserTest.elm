@@ -152,9 +152,7 @@ typeDefinition =
                         { typeName = "Fruit"
                         , typeVariables = [ "season", "currency" ]
                         , constructors =
-                            [ { constructorName = "Apple"
-                              , constructorArguments = []
-                              }
+                            [ { constructorName = "Apple", constructorArguments = [] }
                             , { constructorName = "Banana", constructorArguments = [] }
                             , { constructorName = "Orange", constructorArguments = [] }
                             ]
