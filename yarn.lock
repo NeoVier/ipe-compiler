@@ -676,7 +676,7 @@ elm-review@2.6.1:
     which "^2.0.2"
     wrap-ansi "^6.2.0"
 
-elm-test@^0.19.1-revision7, elm-test@latest-0.19.1:
+elm-test@^0.19.1-revision7:
   version "0.19.1-revision7"
   resolved "https://registry.yarnpkg.com/elm-test/-/elm-test-0.19.1-revision7.tgz#1a0864b001f2cc55ba6479bd3afedfbd271ab549"
   integrity sha512-sd3nCQMeYMaY84Sz41bVJ30ZvQN1/4ZcD8uYMOuUbM39FDh58NY9/AcImVJ7Z+gjCFdcSU6VscZzhUoPW8jp6Q==
