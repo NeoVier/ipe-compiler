@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "The compiler for Ipe, a strict functional programming language for backend development",
   "devDependencies": {
+    "elm-coverage": "^0.4.1",
     "elm-doc-preview": "^5.0.5",
     "elm-review": "2.6.1",
     "elm-test": "latest-0.19.1",
@@ -16,7 +17,8 @@
     "preview-docs": "elm-doc-preview",
     "postinstall": "elm-tooling install",
     "preci": "rm -rf node_modules",
-    "ci": "yarn install --frozen-lockfile"
+    "ci": "yarn install --frozen-lockfile",
+    "coverage": "elm-coverage"
   },
   "author": "Henrique da Cunha Buss",
   "license": "BSD-3-Clause",
