@@ -18,7 +18,7 @@
     "postinstall": "elm-tooling install",
     "preci": "rm -rf node_modules",
     "ci": "yarn install --frozen-lockfile",
-    "coverage": "elm-coverage"
+    "test-all": "echo \"Checking formatting\" && elm-format --validate && echo \"Checking elm-coverage and elm-test\" && elm-coverage && echo \"Checking elm-review\" && elm-review && echo \"Checking doc examples\" && elm-verify-examples --run-tests && echo \"Building docs...\" && yarn build:docs && echo \"All good!\""
   },
   "author": "Henrique da Cunha Buss",
   "license": "BSD-3-Clause",
