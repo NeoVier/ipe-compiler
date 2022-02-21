@@ -1,5 +1,6 @@
 module Ipe.ParserTest exposing (suite)
 
+import Dict
 import Expect
 import Ipe.Language as Language
 import Ipe.Parser
@@ -288,10 +289,11 @@ typeDefinition =
                         , constructors =
                             [ { constructorName = "Apple"
                               , constructorArguments =
-                                    [ Language.RecordType
-                                        [ ( "kind", Language.CustomType { name = "String", arguments = [] } )
-                                        , ( "price", Language.CustomType { name = "Int", arguments = [] } )
-                                        ]
+                                    [ [ ( "kind", Language.CustomType { name = "String", arguments = [] } )
+                                      , ( "price", Language.CustomType { name = "Int", arguments = [] } )
+                                      ]
+                                        |> Dict.fromList
+                                        |> Language.RecordType
                                     ]
                               }
                             , { constructorName = "Banana", constructorArguments = [] }
@@ -315,24 +317,25 @@ typeDefinition =
                         , constructors =
                             [ { constructorName = "Apple"
                               , constructorArguments =
-                                    [ Language.RecordType
-                                        [ ( "kind"
-                                          , Language.CustomType
-                                                { name = "Maybe"
-                                                , arguments =
-                                                    [ Language.CustomType { name = "String", arguments = [] }
-                                                    ]
-                                                }
-                                          )
-                                        , ( "price"
-                                          , Language.CustomType
-                                                { name = "Currency"
-                                                , arguments =
-                                                    [ Language.CustomType { name = "USD", arguments = [] }
-                                                    ]
-                                                }
-                                          )
-                                        ]
+                                    [ [ ( "kind"
+                                        , Language.CustomType
+                                            { name = "Maybe"
+                                            , arguments =
+                                                [ Language.CustomType { name = "String", arguments = [] }
+                                                ]
+                                            }
+                                        )
+                                      , ( "price"
+                                        , Language.CustomType
+                                            { name = "Currency"
+                                            , arguments =
+                                                [ Language.CustomType { name = "USD", arguments = [] }
+                                                ]
+                                            }
+                                        )
+                                      ]
+                                        |> Dict.fromList
+                                        |> Language.RecordType
                                     ]
                               }
                             , { constructorName = "Banana", constructorArguments = [] }
@@ -359,35 +362,37 @@ typeDefinition =
                                     [ Language.CustomType
                                         { name = "SomeConstructor"
                                         , arguments =
-                                            [ Language.RecordType
-                                                [ ( "kind"
-                                                  , Language.CustomType
-                                                        { name = "Maybe"
-                                                        , arguments =
-                                                            [ Language.CustomType { name = "String", arguments = [] }
-                                                            ]
-                                                        }
-                                                  )
-                                                , ( "price"
-                                                  , Language.CustomType
-                                                        { name = "Currency"
-                                                        , arguments =
-                                                            [ Language.GenericType { name = "currency" }
-                                                            , Language.CustomType
-                                                                { name = "Coins"
-                                                                , arguments = [ Language.GenericType { name = "unit" } ]
-                                                                }
-                                                            ]
-                                                        }
-                                                  )
-                                                ]
+                                            [ [ ( "kind"
+                                                , Language.CustomType
+                                                    { name = "Maybe"
+                                                    , arguments =
+                                                        [ Language.CustomType { name = "String", arguments = [] }
+                                                        ]
+                                                    }
+                                                )
+                                              , ( "price"
+                                                , Language.CustomType
+                                                    { name = "Currency"
+                                                    , arguments =
+                                                        [ Language.GenericType { name = "currency" }
+                                                        , Language.CustomType
+                                                            { name = "Coins"
+                                                            , arguments = [ Language.GenericType { name = "unit" } ]
+                                                            }
+                                                        ]
+                                                    }
+                                                )
+                                              ]
+                                                |> Dict.fromList
+                                                |> Language.RecordType
                                             ]
                                         }
-                                    , Language.RecordType
-                                        [ ( "someField"
-                                          , Language.GenericType { name = "currency" }
-                                          )
-                                        ]
+                                    , [ ( "someField"
+                                        , Language.GenericType { name = "currency" }
+                                        )
+                                      ]
+                                        |> Dict.fromList
+                                        |> Language.RecordType
                                     ]
                               }
                             , { constructorName = "Banana", constructorArguments = [] }
@@ -500,10 +505,11 @@ type_ =
                         "{ a : Int, b : b }"
 
                     output =
-                        Language.RecordType
-                            [ ( "a", Language.CustomType { name = "Int", arguments = [] } )
-                            , ( "b", Language.GenericType { name = "b" } )
-                            ]
+                        [ ( "a", Language.CustomType { name = "Int", arguments = [] } )
+                        , ( "b", Language.GenericType { name = "b" } )
+                        ]
+                            |> Dict.fromList
+                            |> Language.RecordType
                 in
                 expectOk input output
         , test "correctly parses custom type with a record argument" <|
@@ -516,10 +522,11 @@ type_ =
                         Language.CustomType
                             { name = "Result"
                             , arguments =
-                                [ Language.RecordType
-                                    [ ( "a", Language.CustomType { name = "Int", arguments = [] } )
-                                    , ( "b", Language.GenericType { name = "b" } )
-                                    ]
+                                [ [ ( "a", Language.CustomType { name = "Int", arguments = [] } )
+                                  , ( "b", Language.GenericType { name = "b" } )
+                                  ]
+                                    |> Dict.fromList
+                                    |> Language.RecordType
                                 , Language.CustomType { name = "String", arguments = [] }
                                 ]
                             }

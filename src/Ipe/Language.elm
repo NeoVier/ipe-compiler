@@ -24,6 +24,10 @@ Types are very important! This is how we represent them in the AST
 
 -}
 
+import Dict
+
+
+
 -------------- MODULE DEFINITION --------------
 
 
@@ -90,5 +94,5 @@ type alias TypeConstructor =
 -}
 type Type
     = GenericType { name : String }
-    | RecordType (List ( String, Type ))
+    | RecordType (Dict.Dict String Type)
     | CustomType { name : String, arguments : List Type }

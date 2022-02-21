@@ -17,6 +17,7 @@ module Ipe.Parser exposing
 
 -}
 
+import Dict
 import Ipe.Language as Language
 import Parser exposing ((|.), (|=), Parser)
 import Parser.Extra
@@ -255,7 +256,7 @@ recordType =
         , start = "{"
         , trailing = Parser.Forbidden
         }
-        |> Parser.map Language.RecordType
+        |> Parser.map (Dict.fromList >> Language.RecordType)
 
 
 customType : Parser Language.Type
